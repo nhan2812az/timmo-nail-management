@@ -87,6 +87,11 @@ $success = $_GET["success"] ?? "";
                 <?= htmlspecialchars($success) ?>
             </p>
         <?php endif; ?>
+        <?php if ($error === "appointment_conflict"): ?>
+            <p style="color: red;">
+                Nhân viên này đã có lịch trong khoảng thời gian đó. Vui lòng chọn giờ khác.
+            </p>
+        <?php endif; ?>
 
         <div class="form-box">
             <h2>Tạo lịch hẹn mới</h2>
@@ -130,6 +135,13 @@ $success = $_GET["success"] ?? "";
 
                 <label>Ghi chú</label>
                 <textarea name="note" placeholder="Ví dụ: khách muốn làm màu hồng, đến sớm 10 phút..."></textarea>
+                <label>Trạng thái</label>
+                <select name="status">
+                    <option value="new">Mới</option>
+                    <option value="confirmed">Đã xác nhận</option>
+                    <option value="completed">Hoàn thành</option>
+                    <option value="cancelled">Đã hủy</option>
+                </select>
 
                 <button type="submit">Tạo lịch hẹn</button>
             </form>

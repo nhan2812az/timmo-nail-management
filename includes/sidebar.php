@@ -2,30 +2,18 @@
 
     <h2>Timmo</h2>
 
-    <a href="/myproject/index.php">
-        Dashboard
-    </a>
+    <?php
+$base_url = "/timmo-nail-management";
+?>
 
-    <a href="/myproject/pages/appointments.php">
-        Lịch hẹn
-    </a>
+<a href="<?= $base_url ?>/index.php">Dashboard</a>
+<a href="<?= $base_url ?>/pages/appointments.php">Lịch hẹn</a>
+<a href="<?= $base_url ?>/pages/calendar.php">Calendar</a>
+<a href="<?= $base_url ?>/pages/customers.php">Khách hàng</a>
+<a href="<?= $base_url ?>/pages/services.php">Dịch vụ</a>
+<a href="<?= $base_url ?>/pages/staff.php">Nhân viên</a>
+<a href="<?= $base_url ?>/pages/users.php">Tài khoản</a>
 
-    <a href="/myproject/pages/customers.php">
-        Khách hàng
-    </a>
-
-    <a href="/myproject/pages/services.php">
-        Dịch vụ
-    </a>
-
-    <a href="/myproject/pages/staff.php">
-        Nhân viên
-    </a>
-    <?php if (($_SESSION["user"]["role"] ?? "") === "admin"): ?>
-    <a href="/myproject/pages/users.php">
-        Tài khoản
-    </a>
-<?php endif; ?>
 
     <hr>
 
@@ -43,7 +31,7 @@
         </strong>
     </p>
 
-    <a href="/myproject/logout.php">
+    <a href="/timmo-nail-management/logout.php">
         Đăng xuất
     </a>
 

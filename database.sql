@@ -34,15 +34,23 @@ CREATE TABLE appointments (
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
     status VARCHAR(30) DEFAULT 'new',
+    payment_status VARCHAR(20) DEFAULT 'unpaid',
     note TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (customer_id) REFERENCES customers(id),
     FOREIGN KEY (service_id) REFERENCES services(id),
     FOREIGN KEY (staff_id) REFERENCES staff(id)
-    ALTER TABLE appointments
-ADD payment_status VARCHAR(20)
-DEFAULT 'unpaid';
+);
+
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    appointment_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    method VARCHAR(50) NOT NULL,
+    payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (appointment_id) REFERENCES appointments(id)
 );
 
 INSERT INTO services (name, price, duration) VALUES
