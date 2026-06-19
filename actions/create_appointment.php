@@ -1,8 +1,11 @@
 <?php
 require_once "../config/database.php";
+require_once "../config/auth.php";
+requireLogin();
 
 $customer_id = $_POST["customer_id"] ?? null;
 $service_id = $_POST["service_id"] ?? null;
+$nail_gallery_id = $_POST["nail_gallery_id"] ?? null;
 $staff_id = $_POST["staff_id"] ?? null;
 $appointment_date = $_POST["appointment_date"] ?? null;
 $appointment_time = $_POST["appointment_time"] ?? null;
@@ -53,13 +56,14 @@ foreach ($existingAppointments as $item) {
 // Tạo lịch hẹn
 $stmt = $pdo->prepare("
     INSERT INTO appointments 
-    (customer_id, service_id, staff_id, appointment_date, appointment_time, note, status)
-    VALUES (?, ?, ?, ?, ?, ?, 'new')
+    (customer_id, service_id, nail_gallery_id, staff_id, appointment_date, appointment_time, note, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 'new')
 ");
 
 $stmt->execute([
     $customer_id,
     $service_id,
+    $nail_gallery_id ?: null,
     $staff_id,
     $appointment_date,
     $appointment_time,

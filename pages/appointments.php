@@ -6,7 +6,11 @@ requireLogin();
 $customers = $pdo->query("SELECT * FROM customers ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
 $services = $pdo->query("SELECT * FROM services WHERE status = 'active' ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
 $staffList = $pdo->query("SELECT * FROM staff WHERE status = 'active' ORDER BY name ASC")->fetchAll(PDO::FETCH_ASSOC);
-
+$nailGallery = $pdo->query("
+    SELECT id, title 
+    FROM nail_gallery 
+    ORDER BY created_at DESC
+")->fetchAll(PDO::FETCH_ASSOC);
 $where = [];
 $params = [];
 
@@ -116,7 +120,15 @@ $success = $_GET["success"] ?? "";
                         </option>
                     <?php endforeach; ?>
                 </select>
-
+                <label>Mẫu nail</label>
+                    <select name="nail_gallery_id">
+                        <option value="">-- Không chọn mẫu --</option>
+                        <?php foreach ($nailGallery as $nail): ?>
+                            <option value="<?= $nail["id"] ?>">
+                                <?= htmlspecialchars($nail["title"]) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 <label>Nhân viên</label>
                 <select name="staff_id" required>
                     <option value="">-- Chọn nhân viên --</option>

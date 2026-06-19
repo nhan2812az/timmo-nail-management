@@ -44,6 +44,24 @@ $newCustomersThisMonth = $pdo->query("
     WHERE YEAR(created_at)=YEAR(CURDATE())
     AND MONTH(created_at)=MONTH(CURDATE())
 ")->fetchColumn();
+$chartStmt = $pdo->query("
+    SELECT DATE(payment_date) AS day,
+           SUM(amount) AS revenue
+    FROM payments
+    GROUP BY DATE(payment_date)
+    ORDER BY day ASC
+    LIMIT 7
+");
+
+$chartData = $chartStmt->fetchAll(PDO::FETCH_ASSOC);
+
+$chartLabels = [];
+$chartRevenues = [];
+
+foreach ($chartData as $row) {
+    $chartLabels[] = $row["day"];
+    $chartRevenues[] = (float)$row["revenue"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +70,9 @@ $newCustomersThisMonth = $pdo->query("
     <meta charset="UTF-8">
     <title>Timmo - Dashboard</title>
     <link rel="stylesheet" href="assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="layout">
@@ -104,6 +124,11 @@ $newCustomersThisMonth = $pdo->query("
             </div>
 
         </div>
+
+        <div class="form-box">
+            <h2>Biểu đồ doanh thu 7 ngày</h2>
+            <canvas id="revenueChart" height="100"></canvas>
+        </div>
         <?php
 
         $latestAppointments = $pdo->query("
@@ -143,6 +168,33 @@ $newCustomersThisMonth = $pdo->query("
         </table>
     </main>
 </div>
+<script>
+const labels = <?= json_encode($chartLabels) ?>;
+const revenues = <?= json_encode($chartRevenues) ?>;
 
+const ctx = document.getElementById("revenueChart");
+
+if (ctx) {
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Doanh thu",
+                data: revenues,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+</script>
 </body>
 </html>

@@ -111,6 +111,8 @@ $error = $_GET["error"] ?? "";
                     <td>
     <a href="customer_history.php?id=<?= $customer["id"] ?>">Lịch sử</a>
     |
+    <a href="customer_analytics.php?id=<?= $customer["id"] ?>">Thống kê</a>
+    |
     <a href="edit_customer.php?id=<?= $customer["id"] ?>">Sửa</a>
     |
     <a 
