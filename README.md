@@ -172,12 +172,12 @@ Password: 123456
 
 ### Giai đoạn 2
 
-* Calendar View
-* Chống trùng lịch theo thời lượng dịch vụ
-* Báo cáo doanh thu
-* Dashboard biểu đồ
-* Upload ảnh mẫu nail
-* Email/SMS nhắc lịch
+* Calendar View - đã hoàn thành
+* Chống trùng lịch theo thời lượng dịch vụ - đã hoàn thành
+* Báo cáo doanh thu - đã hoàn thành
+* Dashboard biểu đồ -  đã hoàn thành
+* Upload ảnh mẫu nail - đang thực hiện
+* Email/SMS nhắc lịch 
 * Hồ sơ khách hàng nâng cao
 
 ## Tác giả
