@@ -3,8 +3,8 @@ require_once "../config/database.php";
 require_once "../config/auth.php";
 requireLogin();
 
-$title = $_POST["title"] ?? "";
-$note = $_POST["note"] ?? "";
+$title = trim($_POST["title"] ?? "");
+$note = trim($_POST["note"] ?? "");
 
 if ($title === "") {
     header("Location: ../pages/nail_gallery.php?error=Thiếu tên mẫu nail");
@@ -29,7 +29,7 @@ if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
 
-$extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+$extension = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
 $fileName = time() . "_" . uniqid() . "." . $extension;
 $targetPath = $uploadDir . $fileName;
 
@@ -40,11 +40,21 @@ if (!move_uploaded_file($_FILES["image"]["tmp_name"], $targetPath)) {
 
 $imagePath = "uploads/nails/" . $fileName;
 
-$stmt = $pdo->prepare("
-    INSERT INTO nail_gallery (title, image_path, note)
-    VALUES (?, ?, ?)
-");
-$stmt->execute([$title, $imagePath, $note]);
+try {
+    $stmt = $pdo->prepare("
+        INSERT INTO nail_gallery (title, image_path, note)
+        VALUES (?, ?, ?)
+    ");
+    $stmt->execute([$title, $imagePath, $note]);
 
-header("Location: ../pages/nail_gallery.php?success=Upload mẫu nail thành công");
-exit;
+    header("Location: ../pages/nail_gallery.php?success=Upload mẫu nail thành công");
+    exit;
+
+} catch (Exception $e) {
+    if (file_exists($targetPath) && is_file($targetPath)) {
+        unlink($targetPath);
+    }
+
+    header("Location: ../pages/nail_gallery.php?error=Không thể lưu dữ liệu mẫu nail");
+    exit;
+}
